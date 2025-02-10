@@ -35,13 +35,62 @@ BB_SQUARES = [
     BB_A8, BB_B8, BB_C8, BB_D8, BB_E8, BB_F8, BB_G8, BB_H8
 ] = [ 1 << i for i in SQUARES ]
 
+############################################
+# White Bitboards
+############################################
+
+BB_WHITE_PAWNS = BB_A2 | BB_B2 | BB_C2 | BB_D2 | BB_E2 | BB_F2 | BB_G2 | BB_H2
+BB_WHITE_KNIGHTS = BB_B1 | BB_G1
+BB_WHITE_BISHOPS = BB_C1 | BB_F1
+BB_WHITE_ROOKS = BB_A1 | BB_H1
+BB_WHITE_QUEENS = BB_D1
+BB_WHITE_KING = BB_E1
+
+############################################
+# Black Bitboards
+############################################
+
+BB_BLACK_PAWNS = BB_A7 | BB_B7 | BB_C7 | BB_D7 | BB_E7 | BB_F7 | BB_G7 | BB_H7
+BB_BLACK_KNIGHTS = BB_B8 | BB_G8
+BB_BLACK_BISHOPS = BB_C8 | BB_F8
+BB_BLACK_ROOKS = BB_A8 | BB_H8
+BB_BLACK_QUEENS = BB_D8
+BB_BLACK_KING = BB_E8
+
+
+# https://www.codeproject.com/Articles/5313417/Worlds-fastest-Bitboard-Chess-Movegenerator
+# https://www.chessprogramming.org/Bitboards
+# https://www.youtube.com/watch?v=bomzBSaW7GQ
+
+
 class Bitboard(object):
     def __init__(self, fen: Optional[str] = None):
+        self._bitboards = {
+            WHITE: {
+                PAWN: BB_WHITE_PAWNS,
+                KNIGHT: BB_WHITE_KNIGHTS,
+                BISHOP: BB_WHITE_BISHOPS,
+                ROOK: BB_WHITE_ROOKS,
+                QUEEN: BB_WHITE_QUEENS,
+                KING: BB_WHITE_KING
+            },
+            BLACK: {
+                PAWN: BB_BLACK_PAWNS,
+                KNIGHT: BB_BLACK_KNIGHTS,
+                BISHOP: BB_BLACK_BISHOPS,
+                ROOK: BB_BLACK_ROOKS,
+                QUEEN: BB_BLACK_QUEENS,
+                KING: BB_BLACK_KING
+            }
+        }
+
+    def _generate_bishop_moves(self, color):
         pass
 
-
+    
 if __name__ == "__main__":
 
+    print(SQUARES)
     print(STARTING_FEN)
     print(WHITE)
     print(PAWN)
@@ -49,3 +98,4 @@ if __name__ == "__main__":
     print(BB_ALL)
     print(A2)
     print(BB_A2)
+    print(bin(BB_WHITE_PAWNS))
