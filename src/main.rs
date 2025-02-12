@@ -1,69 +1,28 @@
-///
-/// bitboards:
-/// 
-/// white pawns:                    black pawns:
-/// 
-///  0xFF << 48                      0xFF << 8
-/// 
-///  0 0 0 0 0 0 0 0                0 0 0 0 0 0 0 0
-///  0 0 0 0 0 0 0 0                1 1 1 1 1 1 1 1
-///  0 0 0 0 0 0 0 0                0 0 0 0 0 0 0 0
-///  0 0 0 0 0 0 0 0                0 0 0 0 0 0 0 0
-///  0 0 0 0 0 0 0 0                0 0 0 0 0 0 0 0
-///  0 0 0 0 0 0 0 0                0 0 0 0 0 0 0 0
-///  1 1 1 1 1 1 1 1                0 0 0 0 0 0 0 0
-///  0 0 0 0 0 0 0 0                0 0 0 0 0 0 0 0
+use std::ops::Shl;
 
-static BB_VOID: u64 = 0x0000000000000000;
-static BB_ALL: u64 = 0xFFFFFFFFFFFFFFFF;
+#[derive(Clone, Copy, Debug)]
+#[allow(non_camel_case_types)]
+/// Exhaustive enum of the chess board squares.
+enum Square {
+    a8, b8, c8, d8, e8, f8, g8, h8,
+    a7, b7, c7, d7, e7, f7, g7, h7,
+    a6, b6, c6, d6, e6, f6, g6, h6,
+    a5, b5, c5, d5, e5, f5, g5, h5,
+    a4, b4, c4, d4, e4, f4, g4, h4,
+    a3, b3, c3, d3, e3, f3, g3, h3,
+    a2, b2, c2, d2, e2, f2, g2, h2,
+    a1, b1, c1, d1, e1, f1, g1, h1,
+}
 
-static BB_WHITE_PAWNS: u64 = 0xFF << 48;
-static BB_WHITE_KNIGHTS: u64 = 0x42 << 56;
-static BB_WHITE_BISHOPS: u64 = 0x24 << 56;
-static BB_WHITE_ROOKS: u64 = 0x81 << 56;
-static BB_WHITE_QUEEN: u64 = 0x10 << 56;
-static BB_WHITE_KING: u64 = 0x08 << 56;
+fn set_bit<S>(bitboard: &mut u64, square: S)
+where S: Into<i32>, u64: Shl<S>
+{
+    *bitboard |= (1u64 << square);
+}
 
-static BB_BLACK_PAWNS: u64 = 0xFF << 8;
-static BB_BLACK_KNIGHTS: u64 = 0x42;
-static BB_BLACK_BISHOPS: u64 = 0x24;
-static BB_BLACK_ROOKS: u64 = 0x81;
-static BB_BLACK_QUEEN: u64 = 0x10;
-static BB_BLACK_KING: u64 = 0x08;
-
-fn print_bitboard(bb: u64) {
-    for i in 0..8 {
-        for j in 0..8 {
-            let shift = i * 8 + j;
-            let mask = 1 << shift;
-            if (bb & mask) != 0 {
-                print!("1 ");
-            } else {
-                print!("0 ");
-            }
-        }
-        println!();
-    }
+fn get_bit(bitboard: u64, square: Square) -> u64 {
+    bitboard & (1 << (square as i32))
 }
 
 fn main() {
-    println!("cengine");
-    println!("BB_VOID:\t{:#064b}", BB_VOID);
-    println!("BB_ALL:\t\t{:#064b}", BB_ALL);
-
-    println!("BB_BLACK_PAWNS:\t\t{:#064b}", BB_BLACK_PAWNS);
-    println!("BB_BLACK_KNIGHTS:\t{:#064b}", BB_BLACK_KNIGHTS);
-    println!("BB_BLACK_BISHOPS:\t{:#064b}", BB_BLACK_BISHOPS);
-    println!("BB_BLACK_ROOKS:\t\t{:#064b}", BB_BLACK_ROOKS);
-    println!("BB_BLACK_QUEEN:\t\t{:#064b}", BB_BLACK_QUEEN);
-    println!("BB_BLACK_KING:\t\t{:#064b}", BB_BLACK_KING);
-
-    println!("BB_WHITE_PAWNS:\t\t{:#064b}", BB_WHITE_PAWNS);
-    println!("BB_WHITE_KNIGHTS:\t{:#064b}", BB_WHITE_KNIGHTS);
-    println!("BB_WHITE_BISHOPS:\t{:#064b}", BB_WHITE_BISHOPS);
-    println!("BB_WHITE_ROOKS:\t\t{:#064b}", BB_WHITE_ROOKS);
-    println!("BB_WHITE_QUEEN:\t\t{:#064b}", BB_WHITE_QUEEN);
-    println!("BB_WHITE_KING:\t\t{:#064b}", BB_WHITE_KING);
-
-    print_bitboard(BB_WHITE_BISHOPS);
 }
