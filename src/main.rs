@@ -14,15 +14,35 @@ enum Square {
     a1, b1, c1, d1, e1, f1, g1, h1,
 }
 
-fn set_bit<S>(bitboard: &mut u64, square: S)
-where S: Into<i32>, u64: Shl<S>
-{
-    *bitboard |= (1u64 << square);
+fn set_bit(bitboard: &mut u64, square: Square) {
+    *bitboard |= 1u64 << (square as i32);
 }
 
 fn get_bit(bitboard: u64, square: Square) -> u64 {
     bitboard & (1 << (square as i32))
 }
 
+fn print_bitboard(bitboard: u64) {
+    println!();
+
+    for rank in 0..8 {
+        for file in 0..8 {
+            let square = rank * 8 + file;
+            let mask = 1u64 << square;
+            if file == 0 {
+                print!(" {} ", 8 - rank);
+            }
+            print!(" {}", if bitboard & mask != 0 { '1' } else { '0' });
+        }
+        println!();
+    }
+
+    println!("    a b c d e f g h\n");
+}
+
 fn main() {
+    let mut bb: u64 = 0u64;
+    print_bitboard(bb);
+    set_bit(&mut bb, Square::e4);
+    print_bitboard(bb);
 }
