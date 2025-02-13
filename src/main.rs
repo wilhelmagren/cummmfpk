@@ -14,14 +14,36 @@ enum Square {
     a1, b1, c1, d1, e1, f1, g1, h1,
 }
 
+impl Square {
+    pub fn index(&self) -> i32 {
+        *self as i32
+    }
+
+    pub fn from_i32(value: i32) -> Self {
+        match value {
+            1 => Square::a8,
+            _ => { todo!() }
+        }
+    }
+}
+
+/// Set one bit of the bitboard equal to 1, determined by the [`Square`] which
+/// is mapped to its corresponding index. For example d7 = 11.
 fn set_bit(bitboard: &mut u64, square: Square) {
     *bitboard |= 1u64 << (square as i32);
 }
 
+///
 fn get_bit(bitboard: u64, square: Square) -> u64 {
     bitboard & (1 << (square as i32))
 }
 
+///
+fn pop_bit(bitboard: &mut u64, square: Square) {
+    if get_bit(*bitboard, square) != 0 { *bitboard ^= 1u64 << square as i32 } else { };
+}
+
+///
 fn print_bitboard(bitboard: u64) {
     println!();
 
@@ -44,5 +66,10 @@ fn main() {
     let mut bb: u64 = 0u64;
     print_bitboard(bb);
     set_bit(&mut bb, Square::e4);
+    set_bit(&mut bb, Square::d4);
+    set_bit(&mut bb, Square::a8);
+    print_bitboard(bb);
+    pop_bit(&mut bb, Square::e4);
+    pop_bit(&mut bb, Square::e3);
     print_bitboard(bb);
 }
